@@ -23,9 +23,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'DRIBBBLE_ACCESS_KEY', properties.getProperty('DRIBBBLE_ACCESS_KEY')
+            buildConfigField 'String', 'LEANCLOUD_ID', properties.getProperty('LEANCLOUD_ID')
+            buildConfigField 'String', 'LEANCLOUD_KEY', properties.getProperty('LEANCLOUD_KEY')
         }
         debug {
             buildConfigField 'String', 'DRIBBBLE_ACCESS_KEY', properties.getProperty('DRIBBBLE_ACCESS_KEY')
+            buildConfigField 'String', 'LEANCLOUD_ID', properties.getProperty('LEANCLOUD_ID')
+            buildConfigField 'String', 'LEANCLOUD_KEY', properties.getProperty('LEANCLOUD_KEY')
         }
     }
     compileOptions {

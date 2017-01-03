@@ -22,12 +22,12 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import me.selinali.tribbble.BuildConfig;
 import me.selinali.tribbble.model.Comment;
 import me.selinali.tribbble.model.Shot;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -55,8 +55,8 @@ public class Dribble {
         .addConverterFactory(LeanCloudGsonConverterFactory.create(mGson))
         .client(new OkHttpClient.Builder().addInterceptor(chain ->
             chain.proceed(chain.request().newBuilder()
-                .addHeader("X-LC-Id", "IAAvVv9CrK2guYNpe95ahS50")
-                .addHeader("X-LC-Key", "Fn9DXLLGg0qR90QElYPBVDGK")
+                .addHeader("X-LC-Id", BuildConfig.LEANCLOUD_ID)
+                .addHeader("X-LC-Key", BuildConfig.LEANCLOUD_KEY)
                 .build())
         ).build())
         .build()
