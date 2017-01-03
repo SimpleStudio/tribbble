@@ -33,6 +33,7 @@ import lombok.experimental.Wither;
 @AllArgsConstructor
 public class Shot {
   @Getter int id;
+  @Getter String objectId;
   @Getter String title;
   @Getter String description;
   @Getter int width;

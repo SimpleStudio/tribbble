@@ -21,7 +21,7 @@ import android.view.ViewTreeObserver;
 
 import rx.Subscription;
 
-public class _ {
+public class Selinali {
   public static void unsubscribe(Subscription subscription) {
     if (subscription != null && !subscription.isUnsubscribed()) {
       subscription.unsubscribe();

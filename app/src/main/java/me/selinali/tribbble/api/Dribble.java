@@ -22,7 +22,6 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-import me.selinali.tribbble.BuildConfig;
 import me.selinali.tribbble.model.Comment;
 import me.selinali.tribbble.model.Shot;
 import okhttp3.OkHttpClient;
@@ -51,12 +50,13 @@ public class Dribble {
 
   private Dribble() {
     mEndpoints = new Retrofit.Builder()
-        .baseUrl("https://api.dribbble.com/v1/")
+        .baseUrl("https://api.leancloud.cn/1.1/classes/")
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create(mGson))
+        .addConverterFactory(LeanCloudGsonConverterFactory.create(mGson))
         .client(new OkHttpClient.Builder().addInterceptor(chain ->
             chain.proceed(chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer " + BuildConfig.DRIBBBLE_ACCESS_KEY)
+                .addHeader("X-LC-Id", "IAAvVv9CrK2guYNpe95ahS50")
+                .addHeader("X-LC-Key", "Fn9DXLLGg0qR90QElYPBVDGK")
                 .build())
         ).build())
         .build()
@@ -64,7 +64,7 @@ public class Dribble {
   }
 
   public Observable<List<Shot>> getShots(int page) {
-    return mEndpoints.getShots(page);
+    return mEndpoints.getShots(2, 1);
   }
 
   /**
@@ -100,7 +100,7 @@ public class Dribble {
   }
 
   private interface Endpoints {
-    @GET("shots") Observable<List<Shot>> getShots(@Query("page") int page);
+    @GET("Shots") Observable<List<Shot>> getShots(@Query("limit") int limit, @Query("skip") int skip);
 
     @GET("shots/{id}") Observable<Shot> getShot(@Path("id") int id);
 

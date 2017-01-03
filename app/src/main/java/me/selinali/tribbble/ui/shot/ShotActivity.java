@@ -47,7 +47,7 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
-import me.selinali.tribbble._;
+import me.selinali.tribbble.Selinali;
 import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.common.DividerItemDecoration;
@@ -128,7 +128,7 @@ public class ShotActivity extends AppCompatActivity {
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    _.unsubscribe(mShotSubscription);
+    Selinali.unsubscribe(mShotSubscription);
   }
 
   private void load() {

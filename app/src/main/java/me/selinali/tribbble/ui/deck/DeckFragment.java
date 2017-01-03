@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.selinali.tribbble.R;
-import me.selinali.tribbble._;
+import me.selinali.tribbble.Selinali;
 import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
@@ -57,7 +57,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private static final String TAG = DeckFragment.class.getSimpleName();
-  private static final int PRELOAD_THRESHOLD = 5;
+  private static final int PRELOAD_THRESHOLD = 1;
 
   @BindView(R.id.card_stack) CardStack mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
@@ -95,11 +95,11 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   };
 
   private void loadNext(int delay) {
-    _.unsubscribe(mSubscription);
+    Selinali.unsubscribe(mSubscription);
     mSubscription = Dribble.instance()
         .getShots(mCurrentPage,
             DeckFragment::shouldShow,
-            shots -> shots.size() >= 5,
+            shots -> shots.size() >= PRELOAD_THRESHOLD,
             page -> mCurrentPage = page
         )
         .delaySubscription(delay, TimeUnit.MILLISECONDS)
@@ -123,7 +123,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   @Override public void onDestroyView() {
     super.onDestroyView();
     mUnbinder.unbind();
-    _.unsubscribe(mSubscription);
+    Selinali.unsubscribe(mSubscription);
   }
 
   @Override public void bind(List<Shot> shots) {
