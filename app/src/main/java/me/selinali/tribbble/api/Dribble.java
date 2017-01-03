@@ -64,7 +64,7 @@ public class Dribble {
   }
 
   public Observable<List<Shot>> getShots(int page) {
-    return mEndpoints.getShots(2, 1);
+    return mEndpoints.getShots(5, 0);
   }
 
   /**

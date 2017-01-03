@@ -35,7 +35,7 @@ import static me.selinali.tribbble.utils.ViewUtils.tintDrawable;
 
 public class ShotCardView extends CardView implements Bindable<Shot> {
 
-  @BindView(R.id.imageview_shot) ImageView mShotImageView;
+  @BindView(R.id.imageview_shot) RatioImageView mShotImageView;
   @BindView(R.id.textview_shot_name) TextView mShotNameTextView;
   @BindView(R.id.textview_user) TextView mUserTextView;
   @BindView(R.id.textview_date) TextView mDateTextView;

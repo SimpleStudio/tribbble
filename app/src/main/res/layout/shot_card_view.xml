@@ -25,12 +25,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <me.selinali.tribbble.ui.shot.RatioImageView
             android:id="@+id/imageview_shot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/grid_item_placeholder"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/abc"/>
 
         <View
             android:id="@+id/divider"
