@@ -62,6 +62,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   @BindView(R.id.card_stack) CardStack mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
   @BindView(R.id.conection_error_container) View mErrorContainer;
+  @BindView(R.id.conection_empty_container) View mEmptyContainer;
 
   private Subscription mSubscription;
   private Unbinder mUnbinder;
@@ -135,9 +136,13 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     } else {
       mAdapter.addAll(shots);
     }
+    // 空内容处理
+    if (shots.isEmpty() && mProgressView.isShown()) {
+      handleEmpty();
+    }
   }
 
-  @OnClick(R.id.textview_retry) public void onRetryClicked() {
+  @OnClick({R.id.textview_retry, R.id.textview_empty}) public void onRetryClicked() {
     mProgressView.setVisibility(View.VISIBLE);
     ViewUtils.fadeView(mErrorContainer, false, 250);
     loadNext(500);
@@ -161,6 +166,15 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     Crashlytics.logException(throwable);
     mProgressView.setVisibility(View.INVISIBLE);
     ViewUtils.fadeView(mCardStack, false, 250);
+    ViewUtils.fadeView(mEmptyContainer, false, 250);
     ViewUtils.fadeView(mErrorContainer, true, 250);
+  }
+
+  private void handleEmpty() {
+    Log.d(TAG, "Touch empty");
+    mProgressView.setVisibility(View.INVISIBLE);
+    ViewUtils.fadeView(mCardStack, false, 250);
+    ViewUtils.fadeView(mErrorContainer, false, 250);
+    ViewUtils.fadeView(mEmptyContainer, true, 250);
   }
 }
