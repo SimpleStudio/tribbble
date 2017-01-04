@@ -99,7 +99,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     mSubscription = Dribble.instance()
         .getShots(mCurrentPage,
             DeckFragment::shouldShow,
-            shots -> shots.size() >= PRELOAD_THRESHOLD,
+            shots -> shots.size() >= PRELOAD_THRESHOLD || shots.size() == 0,
             page -> mCurrentPage = page
         )
         .delaySubscription(delay, TimeUnit.MILLISECONDS)
