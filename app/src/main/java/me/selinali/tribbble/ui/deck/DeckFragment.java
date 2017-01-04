@@ -145,6 +145,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   @OnClick({R.id.textview_retry, R.id.textview_empty}) public void onRetryClicked() {
     mProgressView.setVisibility(View.VISIBLE);
     ViewUtils.fadeView(mErrorContainer, false, 250);
+    ViewUtils.fadeView(mEmptyContainer, false, 250);
     loadNext(500);
   }
 
