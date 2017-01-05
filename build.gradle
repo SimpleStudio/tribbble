@@ -2,18 +2,29 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
+//        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-        classpath 'io.fabric.tools:gradle:1.+'
+//        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
 allprojects {
     repositories {
+        def REPOSITORY_URL = 'http://maven.aliyun.com/nexus/content/groups/public/'
+        all { ArtifactRepository repo ->
+            def url = repo.url.toString()
+            if ((repo instanceof MavenArtifactRepository) && (url.startsWith('https://repo1.maven.org/maven2') || url.startsWith('https://jcenter.bintray.com'))) {
+                project.logger.lifecycle 'Repository ${repo.url} replaced by $REPOSITORY_URL .'
+                remove repo
+            }
+        }
+        maven {
+            url REPOSITORY_URL
+        }
         jcenter()
     }
 }

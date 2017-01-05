@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('secrets.properties').newDataInputStream())
@@ -16,7 +16,7 @@ android {
         targetSdkVersion 23
         versionCode 3
         versionName '1.1'
-        manifestPlaceholders = [ fabricApiKey: properties.getProperty('FABRIC_API_KEY') ]
+//        manifestPlaceholders = [ fabricApiKey: properties.getProperty('FABRIC_API_KEY') ]
     }
     buildTypes {
         release {
@@ -41,7 +41,7 @@ android {
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
-    maven { url 'https://maven.fabric.io/public' }
+//    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -80,7 +80,7 @@ dependencies {
 
     compile 'de.hdodenhof:circleimageview:2.0.0'
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.0@aar') {
-        transitive = true;
-    }
+//    compile('com.crashlytics.sdk.android:crashlytics:2.6.0@aar') {
+//        transitive = true;
+//    }
 }
