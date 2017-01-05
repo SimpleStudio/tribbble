@@ -16,7 +16,10 @@
 
 package me.selinali.tribbble.ui.deck;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -88,7 +91,14 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
     @Override public void topCardTapped() {
       Shot shot = mAdapter.getItem(mCurrentPosition);
-      startActivity(ShotActivity.launchIntentFor(shot, getContext()));
+      Intent intent = ShotActivity.launchIntentFor(shot, getContext());
+
+      // FIXME
+      ActivityOptionsCompat options =
+              ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                      mCardStack, getString(R.string.transition_shot_image));
+
+      ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
     }
   };
 

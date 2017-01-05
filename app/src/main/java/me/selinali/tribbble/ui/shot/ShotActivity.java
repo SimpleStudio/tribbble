@@ -61,7 +61,7 @@ import static me.selinali.tribbble.TribbbleApp.integer;
 public class ShotActivity extends AppCompatActivity {
 
   private static final String TAG = ShotActivity.class.getSimpleName();
-  private static final String EXTRA_SHOT = "EXTRA_SHOT";
+  public static final String EXTRA_SHOT = "EXTRA_SHOT";
 
   public static Intent launchIntentFor(Shot shot, Context context) {
     return new Intent(context, ShotActivity.class)
