@@ -32,10 +32,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
+import me.selinali.tribbble.ui.shot.RatioImageView;
 
 public class ArchiveItemView extends RelativeLayout {
 
-  @BindView(R.id.imageview_shot) ImageView mShotImageView;
+  @BindView(R.id.imageview_shot) RatioImageView mShotImageView;
   @BindView(R.id.gif_label) View mGifLabel;
 
   public ArchiveItemView(Context context) {

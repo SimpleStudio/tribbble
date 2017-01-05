@@ -28,6 +28,8 @@ import android.view.ViewGroup;
 
 import com.wenchao.cardstack.CardStack;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +45,7 @@ import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.MainActivity;
 import me.selinali.tribbble.ui.common.Bindable;
 import me.selinali.tribbble.ui.shot.ShotActivity;
+import me.selinali.tribbble.ui.shot.ShotDetailActivity;
 import me.selinali.tribbble.utils.ViewUtils;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -91,13 +94,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
     @Override public void topCardTapped() {
       Shot shot = mAdapter.getItem(mCurrentPosition);
-      Intent intent = ShotActivity.launchIntentFor(shot, getContext());
+      Intent intent = new Intent(getContext(), ShotDetailActivity.class);
+      intent.putExtra(ShotActivity.EXTRA_SHOT, Parcels.wrap(shot));
 
-      // FIXME
       ActivityOptionsCompat options =
               ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                      mCardStack, getString(R.string.transition_shot_image));
-
+                      mCardStack.findViewById(R.id.imageview_shot), getString(R.string.transition_shot_image));
       ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
     }
   };

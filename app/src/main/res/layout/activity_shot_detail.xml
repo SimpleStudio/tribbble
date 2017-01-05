@@ -4,10 +4,7 @@
     android:id="@+id/activity_shot_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/placeholder_color_1"
     tools:context="me.selinali.tribbble.ui.shot.ShotDetailActivity">
 
     <ImageView
@@ -15,5 +12,5 @@
         android:transitionName="@string/transition_shot_image"
         android:src="@drawable/grid_item_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 </RelativeLayout>
