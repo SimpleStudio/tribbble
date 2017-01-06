@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        maven { url "https://jitpack.io" }
         jcenter()
         mavenCentral()
 //        maven { url 'https://maven.fabric.io/public' }
@@ -22,9 +23,8 @@ allprojects {
                 remove repo
             }
         }
-        maven {
-            url REPOSITORY_URL
-        }
+        maven { url REPOSITORY_URL }
+        maven { url "https://jitpack.io" }
         jcenter()
     }
 }
