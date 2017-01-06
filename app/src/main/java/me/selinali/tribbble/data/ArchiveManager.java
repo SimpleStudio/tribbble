@@ -86,6 +86,13 @@ public class ArchiveManager {
         .commit();
   }
 
+  @SuppressLint("CommitPrefEdits")
+  public void undiscard(Shot shot) {
+    mDiscardedPreferences.edit()
+        .remove(shot.getObjectId())
+        .commit();
+  }
+
   public boolean isDiscarded(Shot shot) {
     return mDiscardedPreferences.contains(shot.getObjectId());
   }

@@ -71,7 +71,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
     @Override public void onSwipe(Shot shot) {
       ArchiveManager.instance().unarchive(shot);
-      ArchiveManager.instance().discard(shot);
+      ArchiveManager.instance().undiscard(shot);
     }
   };
 
