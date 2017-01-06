@@ -18,6 +18,8 @@ package me.selinali.tribbble.ui.archive;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +27,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -38,6 +42,7 @@ import me.selinali.tribbble.ui.MainActivity;
 import me.selinali.tribbble.ui.archive.ArchiveAdapter.ArchiveItemListener;
 import me.selinali.tribbble.ui.common.Bindable;
 import me.selinali.tribbble.ui.shot.ShotActivity;
+import me.selinali.tribbble.ui.shot.ShotDetailActivity;
 import me.selinali.tribbble.utils.ViewUtils;
 
 public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
@@ -55,8 +60,13 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
   private ArchiveItemListener mItemListener = new ArchiveItemListener() {
     @Override public void onClick(Shot shot, ImageView imageView) {
-      Intent intent = ShotActivity.launchIntentFor(shot, getContext());
-      startActivity(intent);
+      Intent intent = new Intent(getContext(), ShotDetailActivity.class);
+      intent.putExtra(ShotActivity.EXTRA_SHOT, Parcels.wrap(shot));
+
+      ActivityOptionsCompat options =
+              ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                      imageView, getString(R.string.transition_shot_image));
+      ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
     }
 
     @Override public void onSwipe(Shot shot) {
