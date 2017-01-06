@@ -19,9 +19,7 @@ package me.selinali.tribbble.model;
 import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -48,7 +46,6 @@ public class Shot {
   @Getter boolean animated;
   @Getter String commentsUrl;
   @Wither @Getter Date archivedAt;
-  @Wither @Getter List<Comment> comments = new ArrayList<>();
 
   @ParcelConstructor Shot() {}
 

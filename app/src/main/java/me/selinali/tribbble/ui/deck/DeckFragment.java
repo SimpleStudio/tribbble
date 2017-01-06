@@ -59,7 +59,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private static final String TAG = DeckFragment.class.getSimpleName();
-  private static final int PRELOAD_THRESHOLD = 1;
+  private static final int PRELOAD_THRESHOLD = 3;
+
+  // 当前页面状态
+  private static int CURRENT_STATUS = 0;
+  private static final int STATUS_ERROR = -1;
+  private static final int STATUS_EMPTY = -2;
 
   @BindView(R.id.card_stack) CardStack mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
@@ -69,7 +74,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private Subscription mSubscription;
   private Unbinder mUnbinder;
   private DeckAdapter mAdapter;
-  private int mCurrentPage = 1;
+  private int mCurrentPage = 0;
   private int mCurrentPosition = 0;
 
   private DeckListener mDeckListener = new DeckListener() {
@@ -154,7 +159,18 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     ViewUtils.fadeView(mErrorContainer, false, 150);
     ViewUtils.fadeView(mEmptyContainer, false, 150);
     mProgressView.setVisibility(View.VISIBLE);
+
+    // 如果页面状态为空，则重新请求
+    if (CURRENT_STATUS == STATUS_EMPTY) {
+      mCurrentPage = 0;
+      mCurrentPosition = 0;
+    }
+
+    // 刷新
     loadNext(500);
+
+    // 重置页面状态
+    CURRENT_STATUS = 0;
   }
 
   private void setupPadding() {
@@ -171,6 +187,10 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private void handleError(Throwable throwable) {
+    // 标记页面状态为错误
+    CURRENT_STATUS = STATUS_ERROR;
+
+    // 展示错误UI
     Log.d(TAG, "Failed to load shot", throwable);
 //    Crashlytics.logException(throwable);
     mProgressView.setVisibility(View.INVISIBLE);
@@ -180,6 +200,10 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private void handleEmpty() {
+    // 标记页面状态为空
+    CURRENT_STATUS = STATUS_EMPTY;
+
+    // 展示空UI
     Log.d(TAG, "Touch empty");
     mProgressView.setVisibility(View.INVISIBLE);
     ViewUtils.fadeView(mCardStack, false, 150);

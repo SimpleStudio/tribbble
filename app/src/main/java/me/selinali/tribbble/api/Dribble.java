@@ -23,19 +23,19 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import me.selinali.tribbble.BuildConfig;
-import me.selinali.tribbble.model.Comment;
 import me.selinali.tribbble.model.Shot;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
 public class Dribble {
+
+  private static final int PAGE_LIMIT = 5;
 
   private static volatile Dribble sInstance;
 
@@ -64,7 +64,7 @@ public class Dribble {
   }
 
   public Observable<List<Shot>> getShots(int page) {
-    return mEndpoints.getShots(5, 0);
+    return mEndpoints.getShots(PAGE_LIMIT, PAGE_LIMIT * page);
   }
 
   /**
@@ -91,19 +91,7 @@ public class Dribble {
         });
   }
 
-  public Observable<Shot> getShot(int id) {
-    return mEndpoints.getShot(id);
-  }
-
-  public Observable<List<Comment>> getComments(Shot shot) {
-    return mEndpoints.getComments(shot.getId());
-  }
-
   private interface Endpoints {
     @GET("Shots") Observable<List<Shot>> getShots(@Query("limit") int limit, @Query("skip") int skip);
-
-    @GET("shots/{id}") Observable<Shot> getShot(@Path("id") int id);
-
-    @GET("shots/{id}/comments") Observable<List<Comment>> getComments(@Path("id") int id);
   }
 }
