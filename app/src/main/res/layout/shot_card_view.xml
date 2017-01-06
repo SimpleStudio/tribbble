@@ -68,6 +68,8 @@
                 android:layout_below="@id/textview_shot_name"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="2dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 tools:text="By Priyesh Patel"/>
 
             <me.selinali.tribbble.ui.common.FontTextView
