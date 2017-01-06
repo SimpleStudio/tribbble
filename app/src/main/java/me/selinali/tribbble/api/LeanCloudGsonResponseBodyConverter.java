@@ -59,8 +59,8 @@ final class LeanCloudGsonResponseBodyConverter<T> implements Converter<ResponseB
       }
       String createAtReg = "\\{\"__type\":\"Date\",\"iso\":(.*?)\\}";
       int dateStart = json.indexOf(createAtKey) + createAtKey.length();
-      int dateEnd = json.indexOf("},", dateStart);
-      String dateStr = json.substring(dateStart, dateEnd);
+      int dateEnd = json.indexOf("\"}", dateStart);
+      String dateStr = json.substring(dateStart, dateEnd + 1);
       json = json.replaceFirst(createAtReg, dateStr);
     }
     // endregion
