@@ -2,7 +2,6 @@ package me.selinali.tribbble.ui.shot;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -13,10 +12,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
+import uk.co.senab.photoview.PhotoView;
 
 public class ShotDetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.img_shot_detail) ImageView mShotDetailImageView;
+    @BindView(R.id.img_shot_detail) PhotoView mShotDetailImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

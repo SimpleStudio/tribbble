@@ -7,7 +7,7 @@
     android:background="@color/placeholder_color_1"
     tools:context="me.selinali.tribbble.ui.shot.ShotDetailActivity">
 
-    <ImageView
+    <uk.co.senab.photoview.PhotoView
         android:id="@+id/img_shot_detail"
         android:transitionName="@string/transition_shot_image"
         android:src="@drawable/grid_item_placeholder"
