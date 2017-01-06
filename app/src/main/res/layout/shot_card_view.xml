@@ -84,43 +84,38 @@
                 android:textColor="@color/textLight"
                 tools:text="June 24, 2016"/>
 
-            <me.selinali.tribbble.ui.common.FontTextView
-                android:id="@+id/textview_views_count"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textview_date"
+                android:orientation="horizontal"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="26dp"
-                android:layout_marginRight="26dp"
-                android:drawableLeft="@drawable/ic_views"
-                android:drawablePadding="4dp"
-                android:drawableTint="@color/textNormal"
-                android:gravity="center"
-                tools:text="1337"/>
+                android:layout_below="@id/textview_date">
 
-            <me.selinali.tribbble.ui.common.FontTextView
-                android:id="@+id/textview_likes_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textview_date"
-                android:layout_toLeftOf="@id/textview_views_count"
-                android:drawableLeft="@drawable/ic_likes"
-                android:drawablePadding="4dp"
-                android:drawableTint="@color/textNormal"
-                android:gravity="center"
-                tools:text="4"/>
+                <me.selinali.tribbble.ui.common.FontTextView
+                    android:id="@+id/textview_views_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_trash"
+                    android:drawablePadding="4dp"
+                    android:drawableTint="@color/textNormal"
+                    android:gravity="center"
+                    tools:text="1337"/>
 
-            <me.selinali.tribbble.ui.common.FontTextView
-                android:id="@+id/textview_buckets_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textview_date"
-                android:layout_toRightOf="@id/textview_views_count"
-                android:drawableLeft="@drawable/bucket"
-                android:drawablePadding="4dp"
-                android:drawableTint="@color/textNormal"
-                android:gravity="center"
-                tools:text="20"/>
+                <Space
+                    android:layout_width="26dp"
+                    android:layout_height="wrap_content" />
+
+                <me.selinali.tribbble.ui.common.FontTextView
+                    android:id="@+id/textview_likes_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_likes"
+                    android:drawablePadding="4dp"
+                    android:drawableTint="@color/textNormal"
+                    android:gravity="center"
+                    tools:text="4"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

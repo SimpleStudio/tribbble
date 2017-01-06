@@ -40,7 +40,6 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
   @BindView(R.id.textview_date) TextView mDateTextView;
   @BindView(R.id.textview_likes_count) TextView mLikesTextView;
   @BindView(R.id.textview_views_count) TextView mViewsTextView;
-  @BindView(R.id.textview_buckets_count) TextView mBucketsTextView;
 
   public ShotCardView(Context context) {
     super(context);
@@ -49,7 +48,6 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
 
     tintDrawable(mLikesTextView, 0);
     tintDrawable(mViewsTextView, 0);
-    tintDrawable(mBucketsTextView, 0);
   }
 
   @Override public void bind(Shot shot) {
@@ -63,6 +61,5 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     mDateTextView.setText(DateUtils.formatDate(shot.getCreatedAt()));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
-    mBucketsTextView.setText(String.valueOf(shot.getBucketsCount()));
   }
 }
