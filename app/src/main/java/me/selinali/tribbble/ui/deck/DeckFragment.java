@@ -59,7 +59,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private static final String TAG = DeckFragment.class.getSimpleName();
-  private static final int PRELOAD_THRESHOLD = 3;
+  private static final int PRELOAD_THRESHOLD = 1;
 
   // 当前页面状态
   private static int CURRENT_STATUS = 0;
