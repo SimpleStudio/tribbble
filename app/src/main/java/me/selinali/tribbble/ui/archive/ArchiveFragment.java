@@ -41,7 +41,6 @@ import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.MainActivity;
 import me.selinali.tribbble.ui.archive.ArchiveAdapter.ArchiveItemListener;
 import me.selinali.tribbble.ui.common.Bindable;
-import me.selinali.tribbble.ui.shot.ShotActivity;
 import me.selinali.tribbble.ui.shot.ShotDetailActivity;
 import me.selinali.tribbble.utils.ViewUtils;
 
@@ -61,7 +60,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   private ArchiveItemListener mItemListener = new ArchiveItemListener() {
     @Override public void onClick(Shot shot, ImageView imageView) {
       Intent intent = new Intent(getContext(), ShotDetailActivity.class);
-      intent.putExtra(ShotActivity.EXTRA_SHOT, Parcels.wrap(shot));
+      intent.putExtra(ShotDetailActivity.EXTRA_SHOT, Parcels.wrap(shot));
 
       ActivityOptionsCompat options =
               ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),

@@ -16,6 +16,8 @@ import uk.co.senab.photoview.PhotoView;
 
 public class ShotDetailActivity extends AppCompatActivity {
 
+    public static final String EXTRA_SHOT = "EXTRA_SHOT";
+
     @BindView(R.id.img_shot_detail) PhotoView mShotDetailImageView;
 
     @Override
@@ -24,7 +26,7 @@ public class ShotDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shot_detail);
         ButterKnife.bind(this);
 
-        Shot shot = Parcels.unwrap(getIntent().getParcelableExtra(ShotActivity.EXTRA_SHOT));
+        Shot shot = Parcels.unwrap(getIntent().getParcelableExtra(ShotDetailActivity.EXTRA_SHOT));
 
         Glide.with(this)
                 .load(shot.getImages().getHighResImage())

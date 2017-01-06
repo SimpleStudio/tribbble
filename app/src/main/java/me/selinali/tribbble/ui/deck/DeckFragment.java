@@ -44,7 +44,6 @@ import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.MainActivity;
 import me.selinali.tribbble.ui.common.Bindable;
-import me.selinali.tribbble.ui.shot.ShotActivity;
 import me.selinali.tribbble.ui.shot.ShotDetailActivity;
 import me.selinali.tribbble.utils.ViewUtils;
 import rx.Subscription;
@@ -95,7 +94,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     @Override public void topCardTapped() {
       Shot shot = mAdapter.getItem(mCurrentPosition);
       Intent intent = new Intent(getContext(), ShotDetailActivity.class);
-      intent.putExtra(ShotActivity.EXTRA_SHOT, Parcels.wrap(shot));
+      intent.putExtra(ShotDetailActivity.EXTRA_SHOT, Parcels.wrap(shot));
 
       ActivityOptionsCompat options =
               ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),

@@ -36,11 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.shot.ShotActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TranslucentStatusBar"></activity>
 
         <!-- <meta-data -->
         <!-- android:name="io.fabric.ApiKey" -->
