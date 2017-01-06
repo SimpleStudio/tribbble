@@ -36,5 +36,6 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/binary_bar"
         android:layout_centerInParent="true"/>
 </RelativeLayout>

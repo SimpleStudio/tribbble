@@ -152,17 +152,17 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   @OnClick({R.id.textview_retry, R.id.textview_empty}) public void onRetryClicked() {
+    ViewUtils.fadeView(mErrorContainer, false, 150);
+    ViewUtils.fadeView(mEmptyContainer, false, 150);
     mProgressView.setVisibility(View.VISIBLE);
-    ViewUtils.fadeView(mErrorContainer, false, 250);
-    ViewUtils.fadeView(mEmptyContainer, false, 250);
     loadNext(500);
   }
 
   private void setupPadding() {
     int navigationBarHeight = ViewUtils.getNavigationBarHeight();
     mCardStack.setPadding(ViewUtils.dpToPx(14), ViewUtils.dpToPx(52),
-        ViewUtils.dpToPx(14), navigationBarHeight + ViewUtils.dpToPx(80));
-    mProgressView.setPadding(0, 0, 0, navigationBarHeight + ViewUtils.dpToPx(80));
+        ViewUtils.dpToPx(14), navigationBarHeight);
+    mProgressView.setPadding(0, 0, 0, navigationBarHeight);
     mErrorContainer.setPadding(0, 0, 0, navigationBarHeight);
   }
 
@@ -175,16 +175,16 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     Log.d(TAG, "Failed to load shot", throwable);
 //    Crashlytics.logException(throwable);
     mProgressView.setVisibility(View.INVISIBLE);
-    ViewUtils.fadeView(mCardStack, false, 250);
-    ViewUtils.fadeView(mEmptyContainer, false, 250);
+    ViewUtils.fadeView(mCardStack, false, 150);
+    ViewUtils.fadeView(mEmptyContainer, false, 150);
     ViewUtils.fadeView(mErrorContainer, true, 250);
   }
 
   private void handleEmpty() {
     Log.d(TAG, "Touch empty");
     mProgressView.setVisibility(View.INVISIBLE);
-    ViewUtils.fadeView(mCardStack, false, 250);
-    ViewUtils.fadeView(mErrorContainer, false, 250);
+    ViewUtils.fadeView(mCardStack, false, 150);
+    ViewUtils.fadeView(mErrorContainer, false, 150);
     ViewUtils.fadeView(mEmptyContainer, true, 250);
   }
 }
