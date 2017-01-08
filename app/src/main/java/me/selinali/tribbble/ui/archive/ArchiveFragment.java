@@ -62,10 +62,11 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
       Intent intent = new Intent(getContext(), ShotDetailActivity.class);
       intent.putExtra(ShotDetailActivity.EXTRA_SHOT, Parcels.wrap(shot));
 
-      ActivityOptionsCompat options =
-              ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                      imageView, getString(R.string.transition_shot_image));
-      ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+//      ActivityOptionsCompat options =
+//              ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+//                      imageView, getString(R.string.transition_shot_image));
+//      ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+      startActivity(intent);
     }
 
     @Override public void onSwipe(Shot shot) {
