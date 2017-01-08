@@ -18,6 +18,7 @@ package me.selinali.tribbble.ui.shot;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.util.Base64;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -57,7 +58,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
         .into(mShotImageView);
     mShotNameTextView.setText(shot.getTitle());
-    mUserTextView.setText(shot.getDescription());
+    mUserTextView.setText(Base64.decode(shot.getDescription(), Base64.NO_WRAP));
     mDateTextView.setText(DateUtils.formatDate(shot.getCreatedAt()));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
