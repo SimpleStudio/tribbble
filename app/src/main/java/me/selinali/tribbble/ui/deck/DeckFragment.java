@@ -16,10 +16,10 @@
 
 package me.selinali.tribbble.ui.deck;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +39,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.Selinali;
+import me.selinali.tribbble.TribbbleApp;
 import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
@@ -60,6 +61,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   private static final String TAG = DeckFragment.class.getSimpleName();
   private static final int PRELOAD_THRESHOLD = 1;
+  private static final String LAST_SHOTS_PAGE_KEY = "LAST_SHOTS_PAGE";
 
   // 当前页面状态
   private static int CURRENT_STATUS = 0;
@@ -71,10 +73,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   @BindView(R.id.conection_error_container) View mErrorContainer;
   @BindView(R.id.conection_empty_container) View mEmptyContainer;
 
+  private SharedPreferences mPreference;
   private Subscription mSubscription;
   private Unbinder mUnbinder;
   private DeckAdapter mAdapter;
   private int mCurrentPage = 0;
+
   private int mCurrentPosition = 0;
 
   private DeckListener mDeckListener = new DeckListener() {
@@ -125,6 +129,10 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    mPreference = TribbbleApp.context().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
+    mCurrentPage = mPreference.getInt(LAST_SHOTS_PAGE_KEY, 0);
+
     loadNext(0);
   }
 
@@ -137,6 +145,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   @Override public void onDestroyView() {
     super.onDestroyView();
+    mPreference.edit().putInt(LAST_SHOTS_PAGE_KEY, mCurrentPage).apply();
+
     mUnbinder.unbind();
     Selinali.unsubscribe(mSubscription);
   }
