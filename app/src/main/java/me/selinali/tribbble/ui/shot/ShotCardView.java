@@ -58,7 +58,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
         .into(mShotImageView);
     mShotNameTextView.setText(shot.getTitle());
-    mUserTextView.setText(Base64.decode(shot.getDescription(), Base64.NO_WRAP));
+    mUserTextView.setText(new String(Base64.decode(shot.getDescription(), Base64.NO_WRAP)));
     mDateTextView.setText(DateUtils.formatDate(shot.getCreatedAt()));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
