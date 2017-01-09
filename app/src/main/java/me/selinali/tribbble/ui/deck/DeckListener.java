@@ -16,9 +16,9 @@
 
 package me.selinali.tribbble.ui.deck;
 
-import com.wenchao.cardstack.DefaultStackEventListener;
+import me.selinali.tribbble.ui.cardstack.DefaultStackEventListenerPort;
 
-public abstract class DeckListener extends DefaultStackEventListener {
+public abstract class DeckListener extends DefaultStackEventListenerPort {
 
   int LEFT = 1, RIGHT = 2;
 

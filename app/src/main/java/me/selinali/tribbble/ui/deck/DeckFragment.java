@@ -25,8 +25,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.wenchao.cardstack.CardStack;
+import android.widget.ImageView;
 
 import org.parceler.Parcels;
 
@@ -44,6 +43,7 @@ import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.MainActivity;
+import me.selinali.tribbble.ui.cardstack.CardStackPort;
 import me.selinali.tribbble.ui.common.Bindable;
 import me.selinali.tribbble.ui.shot.ShotDetailActivity;
 import me.selinali.tribbble.utils.ViewUtils;
@@ -68,7 +68,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private static final int STATUS_ERROR = -1;
   private static final int STATUS_EMPTY = -2;
 
-  @BindView(R.id.card_stack) CardStack mCardStack;
+  @BindView(R.id.card_stack) CardStackPort mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
   @BindView(R.id.conection_error_container) View mErrorContainer;
   @BindView(R.id.conection_empty_container) View mEmptyContainer;
@@ -110,6 +110,32 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 //                      mCardStack.findViewById(R.id.imageview_shot), getString(R.string.transition_shot_image));
 //      ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
       startActivity(intent);
+    }
+
+    @Override
+    public boolean swipeContinue(View view, int section, float distanceX, float distanceY) {
+      // swipe left or right
+      ImageView icon = (ImageView) view.findViewById(R.id.view_cover_icon);
+      if (section % 2 == 0) {
+        // left
+        icon.setBackgroundResource(R.drawable.ic_trash);
+      } else {
+        // right
+        icon.setBackgroundResource(R.drawable.ic_likes);
+      }
+      // update alpha
+      view.findViewById(R.id.view_cover_background).setAlpha(distanceX / getThreshold());
+      icon.setAlpha(distanceX / getThreshold());
+      return super.swipeContinue(view, section, distanceX, distanceY);
+    }
+
+    @Override
+    public boolean swipeEnd(View view, int section, float distance) {
+      if (distance < getThreshold()) {
+        view.findViewById(R.id.view_cover_background).setAlpha(0);
+        view.findViewById(R.id.view_cover_icon).setAlpha(0);
+      }
+      return super.swipeEnd(view, section, distance);
     }
   };
 
