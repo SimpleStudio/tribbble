@@ -70,48 +70,24 @@
             android:gravity="center">
 
             <me.selinali.tribbble.ui.common.FontTextView
-                android:id="@+id/textview_shot_name"
+                android:id="@+id/textview_descript"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="28dp"
-                android:layout_marginRight="28dp"
-                android:gravity="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20dp"
-                app:weight="semibold"
-                tools:text="Blah McBlahBlah"/>
-
-            <me.selinali.tribbble.ui.common.FontTextView
-                android:id="@+id/textview_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textview_shot_name"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"
-                tools:text="By Priyesh Patel"/>
-
-            <me.selinali.tribbble.ui.common.FontTextView
-                android:id="@+id/textview_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textview_user"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="24dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
                 android:gravity="center"
-                android:textColor="@color/textLight"
-                tools:text="June 24, 2016"/>
+                tools:text="By Priyesh"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/textview_date">
+                android:layout_below="@id/textview_descript">
 
                 <me.selinali.tribbble.ui.common.FontTextView
                     android:id="@+id/textview_views_count"
@@ -124,7 +100,7 @@
                     tools:text="1337"/>
 
                 <Space
-                    android:layout_width="26dp"
+                    android:layout_width="24dp"
                     android:layout_height="wrap_content" />
 
                 <me.selinali.tribbble.ui.common.FontTextView
