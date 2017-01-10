@@ -11,7 +11,7 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId 'me.selinali.tribbble'
+        applicationId 'me.pcqpcq.android.tribbble'
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 110
