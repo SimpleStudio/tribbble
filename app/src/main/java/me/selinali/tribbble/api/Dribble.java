@@ -64,7 +64,7 @@ public class Dribble {
   }
 
   public Observable<List<Shot>> getShots(int page) {
-    return mEndpoints.getShots(PAGE_LIMIT, PAGE_LIMIT * page);
+    return mEndpoints.getShots(PAGE_LIMIT, PAGE_LIMIT * page, "createdAt");
   }
 
   /**
@@ -92,6 +92,6 @@ public class Dribble {
   }
 
   private interface Endpoints {
-    @GET("Shots") Observable<List<Shot>> getShots(@Query("limit") int limit, @Query("skip") int skip);
+    @GET("Shots") Observable<List<Shot>> getShots(@Query("limit") int limit, @Query("skip") int skip, @Query("order") String order);
   }
 }
