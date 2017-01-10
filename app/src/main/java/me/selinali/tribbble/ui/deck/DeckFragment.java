@@ -104,11 +104,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       Shot shot = mAdapter.getItem(mCurrentPosition);
       Intent intent = new Intent(getContext(), ShotDetailActivity.class);
       intent.putExtra(ShotDetailActivity.EXTRA_SHOT, Parcels.wrap(shot));
-
-//      ActivityOptionsCompat options =
-//              ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-//                      mCardStack.findViewById(R.id.imageview_shot), getString(R.string.transition_shot_image));
-//      ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
       startActivity(intent);
     }
 
@@ -118,13 +113,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       ImageView icon = (ImageView) view.findViewById(R.id.view_cover_icon);
       if (section % 2 == 0) {
         // left
-        icon.setBackgroundResource(R.drawable.ic_trash);
+        icon.setBackgroundResource(R.drawable.ic_trash_light);
       } else {
         // right
-        icon.setBackgroundResource(R.drawable.ic_likes);
+        icon.setBackgroundResource(R.drawable.ic_likes_light);
       }
       // update alpha
-      view.findViewById(R.id.view_cover_background).setAlpha(distanceX / getThreshold());
       icon.setAlpha(distanceX / getThreshold());
       return super.swipeContinue(view, section, distanceX, distanceY);
     }

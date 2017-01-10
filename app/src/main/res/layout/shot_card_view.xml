@@ -39,18 +39,9 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/grid_item_placeholder"/>
 
-            <View
-                android:id="@+id/view_cover_background"
-                android:alpha="0"
-                android:background="@android:color/darker_gray"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/imageview_shot"/>
-
             <ImageView
                 android:id="@+id/view_cover_icon"
                 android:alpha="0"
-                android:background="@drawable/ic_trash"
                 android:layout_centerInParent="true"
                 android:layout_width="144dp"
                 android:layout_height="144dp"/>
