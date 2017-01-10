@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">笑你妹</string>
+    <string name="archive">收藏</string>
+    <string name="no_archived_shots">好伤心，什么也没有。</string>
+    <string name="retry">1-2-3-4，再来一次</string>
+    <string name="empty">这里空空如也~</string>
+    <string name="deck">笑板</string>
+    <string name="swipe_right_to_archive">在笑板里向右滑动卡片可以收藏</string>
+</resources>
