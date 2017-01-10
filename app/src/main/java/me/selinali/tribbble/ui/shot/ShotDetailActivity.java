@@ -2,6 +2,7 @@ package me.selinali.tribbble.ui.shot;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -13,6 +14,7 @@ import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ShotDetailActivity extends AppCompatActivity {
 
@@ -33,5 +35,12 @@ public class ShotDetailActivity extends AppCompatActivity {
                 .placeholder(R.drawable.grid_item_placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mShotDetailImageView);
+
+        mShotDetailImageView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+            @Override
+            public void onViewTap(View view, float x, float y) {
+                onBackPressed();
+            }
+        });
     }
 }
