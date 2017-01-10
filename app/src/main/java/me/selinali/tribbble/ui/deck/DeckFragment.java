@@ -126,7 +126,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     @Override
     public boolean swipeEnd(View view, int section, float distance) {
       if (distance < getThreshold()) {
-        view.findViewById(R.id.view_cover_background).setAlpha(0);
         view.findViewById(R.id.view_cover_icon).setAlpha(0);
       }
       return super.swipeEnd(view, section, distance);
