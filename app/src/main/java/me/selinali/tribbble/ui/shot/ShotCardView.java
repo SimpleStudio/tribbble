@@ -18,6 +18,7 @@ package me.selinali.tribbble.ui.shot;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.text.Html;
 import android.util.Base64;
 import android.widget.TextView;
 
@@ -55,7 +56,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
         .placeholder(R.drawable.grid_item_placeholder)
         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
         .into(mShotImageView);
-    mDescriptTextView.setText(new String(Base64.decode(shot.getDescription(), Base64.NO_WRAP)));
+    mDescriptTextView.setText(Html.fromHtml(new String(Base64.decode(shot.getDescription(), Base64.NO_WRAP))));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
   }

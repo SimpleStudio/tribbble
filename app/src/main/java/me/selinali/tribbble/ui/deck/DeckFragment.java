@@ -74,6 +74,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private DeckAdapter mAdapter;
   private int mCurrentPage = 0;
   private int mCurrentPosition = 0;
+  private int mLastPageSize = 0;
   private boolean mIsRetry = false;
 
   private DeckListener mDeckListener = new DeckListener() {
@@ -132,7 +133,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     mSubscription = Dribble.instance()
         .getShots(mCurrentPage,
             DeckFragment::shouldShow,
-            shots -> shots.size() >= PRELOAD_THRESHOLD || shots.size() == 0,
+            shots -> (mLastPageSize == 0 && shots.size() == 0) || (mLastPageSize = shots.size()) >= PRELOAD_THRESHOLD,
             page -> mCurrentPage = page
         )
         .delaySubscription(delay, TimeUnit.MILLISECONDS)
@@ -175,7 +176,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       mAdapter.addAll(shots);
     }
     // 空内容处理
-    if (shots.isEmpty() && mProgressView.isShown()) {
+    if (shots.isEmpty() && mCardStack.getCurrIndex() == mAdapter.getCount()) {
       handleEmpty();
     }
     // reset retry
