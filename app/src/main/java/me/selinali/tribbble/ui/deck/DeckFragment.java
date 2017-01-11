@@ -60,13 +60,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private static final String TAG = DeckFragment.class.getSimpleName();
-  private static final int PRELOAD_THRESHOLD = 1;
+  private static final int PRELOAD_THRESHOLD = 5;
   private static final String LAST_SHOTS_PAGE_KEY = "LAST_SHOTS_PAGE";
-
-  // 当前页面状态
-  private static int CURRENT_STATUS = 0;
-  private static final int STATUS_ERROR = -1;
-  private static final int STATUS_EMPTY = -2;
 
   @BindView(R.id.card_stack) CardStackPort mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
@@ -78,8 +73,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private Unbinder mUnbinder;
   private DeckAdapter mAdapter;
   private int mCurrentPage = 0;
-
   private int mCurrentPosition = 0;
+  private boolean mIsRetry = false;
 
   private DeckListener mDeckListener = new DeckListener() {
     @Override void onCardSwiped(int direction, int swipedIndex) {
@@ -183,6 +178,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     if (shots.isEmpty() && mProgressView.isShown()) {
       handleEmpty();
     }
+    // reset retry
+    mIsRetry = false;
   }
 
   @OnClick({R.id.textview_retry, R.id.textview_empty}) public void onRetryClicked() {
@@ -190,17 +187,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     ViewUtils.fadeView(mEmptyContainer, false, 150);
     mProgressView.setVisibility(View.VISIBLE);
 
-    // 如果页面状态为空，则重新请求
-    if (CURRENT_STATUS == STATUS_EMPTY) {
-      mCurrentPage = 0;
-      mCurrentPosition = 0;
-    }
+    // try next page
+    mCurrentPage += 1;
+    mIsRetry = true;
 
     // 刷新
     loadNext(500);
-
-    // 重置页面状态
-    CURRENT_STATUS = 0;
   }
 
   private void setupPadding() {
@@ -217,9 +209,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private void handleError(Throwable throwable) {
-    // 标记页面状态为错误
-    CURRENT_STATUS = STATUS_ERROR;
-
     // 展示错误UI
     Log.d(TAG, "Failed to load shot", throwable);
 //    Crashlytics.logException(throwable);
@@ -230,9 +219,9 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private void handleEmpty() {
-    // 标记页面状态为空
-    CURRENT_STATUS = STATUS_EMPTY;
-
+    if (mIsRetry) {
+      mCurrentPage -= 1;
+    }
     // 展示空UI
     Log.d(TAG, "Touch empty");
     mProgressView.setVisibility(View.INVISIBLE);

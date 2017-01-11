@@ -35,7 +35,7 @@ import rx.functions.Func1;
 
 public class Dribble {
 
-  private static final int PAGE_LIMIT = 5;
+  private static final int PAGE_LIMIT = 10;
 
   private static volatile Dribble sInstance;
 
