@@ -30,12 +30,12 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
-import rx.functions.Action1;
 import rx.functions.Func1;
 
 public class Dribble {
 
-  private static final int PAGE_LIMIT = 10;
+  public static final int PAGE_LIMIT = 10;
+  public static final int PRELOAD_THRESHOLD = 5;
 
   private static volatile Dribble sInstance;
 
@@ -72,23 +72,13 @@ public class Dribble {
    * and collecting until the predicate has been satisfied.
    */
   public Observable<List<Shot>> getShots(int page,
-    /* Filters each shot           */    Func1<Shot, Boolean> f,
-    /* Evaluates collected shots   */    Func1<List<Shot>, Boolean> p,
-    /* Called when page increments */    Action1<Integer> onPageIncremented) {
+    /* Check is last page */    Func1<List<Shot>, List<Shot>> c,
+    /* Filters each shot           */    Func1<Shot, Boolean> f) {
     return getShots(page)
-        .flatMapIterable(shots -> shots)
+        .flatMapIterable(c)
         .filter(f)
         .toList()
-        .flatMap(shots -> {
-          if (p.call(shots)) {
-            return Observable.just(shots);
-          } else {
-            int incrementedPage = page + 1;
-            onPageIncremented.call(incrementedPage);
-            return Observable.just(shots)
-                .concatWith(getShots(incrementedPage, f, p, onPageIncremented));
-          }
-        });
+        .flatMap(shots -> Observable.just(shots));
   }
 
   private interface Endpoints {

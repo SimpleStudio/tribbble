@@ -60,7 +60,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private static final String TAG = DeckFragment.class.getSimpleName();
-  private static final int PRELOAD_THRESHOLD = 5;
   private static final String LAST_SHOTS_PAGE_KEY = "LAST_SHOTS_PAGE";
 
   @BindView(R.id.card_stack) CardStackPort mCardStack;
@@ -74,13 +73,13 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private DeckAdapter mAdapter;
   private int mCurrentPage = 0;
   private int mCurrentPosition = 0;
-  private int mLastPageSize = 0;
   private boolean mIsRetry = false;
+  private boolean mShouldShowEmpty = false;
 
   private DeckListener mDeckListener = new DeckListener() {
     @Override void onCardSwiped(int direction, int swipedIndex) {
       mCurrentPosition++;
-      if (mAdapter.getCount() - swipedIndex <= PRELOAD_THRESHOLD) {
+      if (mAdapter.getCount() - swipedIndex <= Dribble.PRELOAD_THRESHOLD) {
         mCurrentPage++;
         loadNext(0);
       }
@@ -132,14 +131,21 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     Selinali.unsubscribe(mSubscription);
     mSubscription = Dribble.instance()
         .getShots(mCurrentPage,
-            DeckFragment::shouldShow,
-            shots -> (mLastPageSize == 0 && shots.size() == 0) || (mLastPageSize = shots.size()) >= PRELOAD_THRESHOLD,
-            page -> mCurrentPage = page
+            shots -> checkIsLastPage(shots),
+            DeckFragment::shouldShow
         )
         .delaySubscription(delay, TimeUnit.MILLISECONDS)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(this::bind, this::handleError);
+  }
+
+  private List<Shot> checkIsLastPage(List<Shot> shots) {
+    boolean isLastPage = shots.size() < Dribble.PAGE_LIMIT;
+    if (isLastPage) {
+      mShouldShowEmpty = true;
+    }
+    return shots;
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
@@ -176,7 +182,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       mAdapter.addAll(shots);
     }
     // 空内容处理
-    if (shots.isEmpty() && mCardStack.getCurrIndex() == mAdapter.getCount()) {
+    if (shots.isEmpty() && mShouldShowEmpty) {
       handleEmpty();
     }
     // reset retry
