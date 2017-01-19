@@ -73,13 +73,15 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private DeckAdapter mAdapter;
   private int mCurrentPage = 0;
   private int mCurrentPosition = 0;
-  private boolean mIsRetry = false;
+  /** used to show if is loading next page while swipe */
+  private boolean mIsLoading = false;
+  /** used to show if next page is empty */
   private boolean mShouldShowEmpty = false;
 
   private DeckListener mDeckListener = new DeckListener() {
     @Override void onCardSwiped(int direction, int swipedIndex) {
       mCurrentPosition++;
-      if (mAdapter.getCount() - swipedIndex <= Dribble.PRELOAD_THRESHOLD) {
+      if (mAdapter.getCount() - swipedIndex <= Dribble.PRELOAD_THRESHOLD && !mIsLoading) {
         mCurrentPage++;
         loadNext(0);
       }
@@ -128,22 +130,26 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   };
 
   private void loadNext(int delay) {
+    mIsLoading = true;
     Selinali.unsubscribe(mSubscription);
     mSubscription = Dribble.instance()
         .getShots(mCurrentPage,
-            shots -> checkIsLastPage(shots),
+            shots -> checkResponsedShotSize(shots),
             DeckFragment::shouldShow
         )
         .delaySubscription(delay, TimeUnit.MILLISECONDS)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+        .doOnCompleted(() -> mIsLoading = false)
         .subscribe(this::bind, this::handleError);
   }
 
-  private List<Shot> checkIsLastPage(List<Shot> shots) {
-    boolean isLastPage = shots.size() < Dribble.PAGE_LIMIT;
-    if (isLastPage) {
+  private List<Shot> checkResponsedShotSize(List<Shot> shots) {
+    if (shots.size() < Dribble.PAGE_LIMIT) {
       mShouldShowEmpty = true;
+    }
+    if (shots.size() == 0) {
+      mCurrentPage -= 1;
     }
     return shots;
   }
@@ -166,6 +172,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   @Override public void onDestroyView() {
     super.onDestroyView();
+    mCurrentPage = mCurrentPosition < mCurrentPage * Dribble.PAGE_LIMIT ? mCurrentPage - 1 : mCurrentPage;
     mPreference.edit().putInt(LAST_SHOTS_PAGE_KEY, mCurrentPage).apply();
 
     mUnbinder.unbind();
@@ -182,11 +189,9 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       mAdapter.addAll(shots);
     }
     // 空内容处理
-    if (shots.isEmpty() && mShouldShowEmpty) {
+    if (shots.isEmpty() && mShouldShowEmpty && mCurrentPosition == mAdapter.getCount()) {
       handleEmpty();
     }
-    // reset retry
-    mIsRetry = false;
   }
 
   @OnClick({R.id.textview_retry, R.id.textview_empty}) public void onRetryClicked() {
@@ -196,7 +201,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
     // try next page
     mCurrentPage += 1;
-    mIsRetry = true;
 
     // 刷新
     loadNext(500);
@@ -226,9 +230,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private void handleEmpty() {
-    if (mIsRetry) {
-      mCurrentPage -= 1;
-    }
     // 展示空UI
     Log.d(TAG, "Touch empty");
     mProgressView.setVisibility(View.INVISIBLE);
