@@ -61,6 +61,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   private static final String TAG = DeckFragment.class.getSimpleName();
   private static final String LAST_SHOTS_PAGE_KEY = "LAST_SHOTS_PAGE";
+  private static final String LAST_SHOTS_POSITION_KEY = "LAST_SHOTS_POSITION";
 
   @BindView(R.id.card_stack) CardStackPort mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
@@ -172,8 +173,13 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   @Override public void onDestroyView() {
     super.onDestroyView();
+
+    int last = mPreference.getInt(LAST_SHOTS_POSITION_KEY, 0);
+    mCurrentPosition = last > 0 ? last + mCurrentPosition : mCurrentPosition;
     mCurrentPage = mCurrentPosition < mCurrentPage * Dribble.PAGE_LIMIT ? mCurrentPage - 1 : mCurrentPage;
+
     mPreference.edit().putInt(LAST_SHOTS_PAGE_KEY, mCurrentPage).apply();
+    mPreference.edit().putInt(LAST_SHOTS_POSITION_KEY, mCurrentPosition).apply();
 
     mUnbinder.unbind();
     Selinali.unsubscribe(mSubscription);
