@@ -54,59 +54,76 @@
             android:layout_below="@id/framelayout_shot"
             android:background="@color/divider"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/divider"
-            android:gravity="center">
+            android:orientation="vertical"
+            android:paddingBottom="6dp">
 
-            <me.selinali.tribbble.ui.common.FontTextView
-                android:id="@+id/textview_descript"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <me.selinali.tribbble.ui.common.FontTextView
+                    android:id="@+id/textview_descript"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    tools:text="By Priyesh"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/textview_descript">
+
+                    <me.selinali.tribbble.ui.common.FontTextView
+                        android:id="@+id/textview_views_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_trash"
+                        android:drawablePadding="4dp"
+                        android:drawableTint="@color/textNormal"
+                        android:gravity="center"
+                        tools:text="1337"/>
+
+                    <Space
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content" />
+
+                    <me.selinali.tribbble.ui.common.FontTextView
+                        android:id="@+id/textview_likes_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_likes"
+                        android:drawablePadding="4dp"
+                        android:drawableTint="@color/textNormal"
+                        android:gravity="center"
+                        tools:text="4"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adview_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="24dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
-                android:gravity="center"
-                tools:text="By Priyesh"/>
+                android:layout_gravity="bottom|center_horizontal"
+                app:adSize="BANNER"
+                app:adUnitId="@string/banner_ad_unit_id" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/textview_descript">
-
-                <me.selinali.tribbble.ui.common.FontTextView
-                    android:id="@+id/textview_views_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_trash"
-                    android:drawablePadding="4dp"
-                    android:drawableTint="@color/textNormal"
-                    android:gravity="center"
-                    tools:text="1337"/>
-
-                <Space
-                    android:layout_width="24dp"
-                    android:layout_height="wrap_content" />
-
-                <me.selinali.tribbble.ui.common.FontTextView
-                    android:id="@+id/textview_likes_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_likes"
-                    android:drawablePadding="4dp"
-                    android:drawableTint="@color/textNormal"
-                    android:gravity="center"
-                    tools:text="4"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 </merge>

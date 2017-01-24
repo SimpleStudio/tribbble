@@ -24,9 +24,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.selinali.tribbble.BuildConfig;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.common.Bindable;
@@ -40,6 +43,9 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
   @BindView(R.id.textview_descript) TextView mDescriptTextView;
   @BindView(R.id.textview_likes_count) TextView mLikesTextView;
   @BindView(R.id.textview_views_count) TextView mViewsTextView;
+  @BindView(R.id.adview_card) AdView mAdView;
+
+  private AdRequest mAdRequest;
 
   public ShotCardView(Context context) {
     super(context);
@@ -48,6 +54,13 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
 
     tintDrawable(mLikesTextView, 0);
     tintDrawable(mViewsTextView, 0);
+
+    AdRequest.Builder adBuilder = new AdRequest.Builder();
+    if (BuildConfig.DEBUG) {
+      adBuilder.addTestDevice("2F1959F56393231DB5DDFB6B50F6E32D");
+//      adBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+    }
+    mAdRequest = adBuilder.build();
   }
 
   @Override public void bind(Shot shot) {
@@ -59,5 +72,6 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     mDescriptTextView.setText(Html.fromHtml(new String(Base64.decode(shot.getDescription(), Base64.NO_WRAP))));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
+    mAdView.loadAd(mAdRequest);
   }
 }
