@@ -20,20 +20,21 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.util.Base64;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+
+import net.youmi.android.normal.banner.BannerManager;
+import net.youmi.android.normal.banner.BannerViewListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.selinali.tribbble.BuildConfig;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.common.Bindable;
-import me.selinali.tribbble.utils.DateUtils;
 
 import static me.selinali.tribbble.utils.ViewUtils.tintDrawable;
 
@@ -43,9 +44,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
   @BindView(R.id.textview_descript) TextView mDescriptTextView;
   @BindView(R.id.textview_likes_count) TextView mLikesTextView;
   @BindView(R.id.textview_views_count) TextView mViewsTextView;
-  @BindView(R.id.adview_card) AdView mAdView;
-
-  private AdRequest mAdRequest;
+  @BindView(R.id.ad_banner) LinearLayout mBannerLayout;
 
   public ShotCardView(Context context) {
     super(context);
@@ -55,12 +54,26 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     tintDrawable(mLikesTextView, 0);
     tintDrawable(mViewsTextView, 0);
 
-    AdRequest.Builder adBuilder = new AdRequest.Builder();
-    if (BuildConfig.DEBUG) {
-      adBuilder.addTestDevice("2F1959F56393231DB5DDFB6B50F6E32D");
-//      adBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
-    }
-    mAdRequest = adBuilder.build();
+    // 获取广告条
+    View bannerView = BannerManager.getInstance(getContext())
+            .getBannerView(getContext(), new BannerViewListener() {
+              @Override
+              public void onRequestSuccess() {
+
+              }
+
+              @Override
+              public void onSwitchBanner() {
+
+              }
+
+              @Override
+              public void onRequestFailed() {
+
+              }
+            });
+    // 将广告条加入到布局中
+    mBannerLayout.addView(bannerView);
   }
 
   @Override public void bind(Shot shot) {
@@ -72,6 +85,12 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     mDescriptTextView.setText(Html.fromHtml(new String(Base64.decode(shot.getDescription(), Base64.NO_WRAP))));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
-    mAdView.loadAd(mAdRequest);
+  }
+
+  @Override
+  protected void onDetachedFromWindow() {
+    // 展示广告条窗口的 onDestroy() 回调方法中调用
+    BannerManager.getInstance(getContext()).onDestroy();
+    super.onDetachedFromWindow();
   }
 }

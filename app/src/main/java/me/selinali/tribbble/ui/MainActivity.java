@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import net.youmi.android.AdManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
     swapFragment(TAG_DECK_FRAGMENT);
     mBinaryBar.addItems(mLeftItem, mRightItem);
+
+    AdManager.getInstance(this)
+            .init("93586f72d92d32ab", "93cb742f4eb0468f", false, false);
   }
 
   @Override
