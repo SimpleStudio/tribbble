@@ -57,8 +57,6 @@ dependencies {
     compile 'com.android.support:palette-v7:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
 
-    compile 'com.google.android.gms:play-services-ads:10.0.1'
-
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'

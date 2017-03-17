@@ -17,6 +17,18 @@
     package="me.selinali.tribbble">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- sdk所需的用户权限，必选 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".TribbbleApp"
@@ -42,6 +54,12 @@
         <!-- android:value="${fabricApiKey}"/> -->
 
         <activity android:name=".ui.shot.ShotDetailActivity"></activity>
+
+        <!--广告点击后，打开 Landing Site 时使用的 Activity，必选 -->
+        <activity
+            android:name="com.mobisage.android.MobiSageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" >
+        </activity>
     </application>
 
 </manifest>

@@ -115,13 +115,11 @@
 
             </RelativeLayout>
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adview_card"
+            <LinearLayout android:id="@+id/ad_container"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                app:adSize="BANNER"
-                app:adUnitId="@string/banner_ad_unit_id" />
+                android:layout_height="56dp"/>
 
         </LinearLayout>
 

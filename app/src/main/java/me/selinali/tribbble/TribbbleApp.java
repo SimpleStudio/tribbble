@@ -27,6 +27,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
 import com.facebook.stetho.Stetho;
+import com.mobisage.android.MobiSageManager;
 
 public class TribbbleApp extends Application {
 
@@ -40,6 +41,9 @@ public class TribbbleApp extends Application {
 //    Fabric.with(this, new Crashlytics());
 
     sContext = getApplicationContext();
+
+    MobiSageManager.getInstance()
+            .initMobiSageManager(sContext, "7u/uPYF6Y/TeT6m0aQ==", "Main_v1.2.0");
   }
 
   public static Context context() {
