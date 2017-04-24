@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
+import java.util.Random;
 
 import me.selinali.tribbble.BuildConfig;
 import me.selinali.tribbble.model.Shot;
@@ -34,8 +35,9 @@ import rx.functions.Func1;
 
 public class Dribble {
 
-  public static final int PAGE_LIMIT = 10;
+  public static final int PAGE_SIZE = 10;
   public static final int PRELOAD_THRESHOLD = 5;
+  public static final int MAX_CARD_COUNT = 46572;
 
   private static volatile Dribble sInstance;
 
@@ -63,22 +65,33 @@ public class Dribble {
         .create(Endpoints.class);
   }
 
-  public Observable<List<Shot>> getShots(int page) {
-    return mEndpoints.getShots(PAGE_LIMIT, PAGE_LIMIT * page, "createdAt");
+  public Observable<List<Shot>> getShots() {
+    int index = getCurrentIndex();
+    return mEndpoints.getShots(PAGE_SIZE, index, "createdAt");
   }
 
   /**
    * Continuously hits the shots endpoint, filtering each shot by the given function
    * and collecting until the predicate has been satisfied.
    */
-  public Observable<List<Shot>> getShots(int page,
-    /* Check is last page */    Func1<List<Shot>, List<Shot>> c,
-    /* Filters each shot           */    Func1<Shot, Boolean> f) {
-    return getShots(page)
-        .flatMapIterable(c)
+  public Observable<List<Shot>> getShots(
+    /* Filters each shot */    Func1<Shot, Boolean> f,
+    /* Check should load next page */   Func1<List<Shot>, Boolean> p) {
+    return getShots()
+        .flatMapIterable(shots -> shots)
         .filter(f)
         .toList()
-        .flatMap(shots -> Observable.just(shots));
+        .flatMap(shots -> {
+          if (p.call(shots)) {
+            return Observable.just(shots);
+          } else {
+            return Observable.just(shots).concatWith(getShots(f, p));
+          }
+        });
+  }
+
+  private int getCurrentIndex() {
+    return new Random().nextInt(MAX_CARD_COUNT - PAGE_SIZE);
   }
 
   private interface Endpoints {

@@ -16,9 +16,7 @@
 
 package me.selinali.tribbble.ui.deck;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -38,7 +36,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.Selinali;
-import me.selinali.tribbble.TribbbleApp;
 import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
@@ -60,30 +57,23 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private static final String TAG = DeckFragment.class.getSimpleName();
-  private static final String LAST_SHOTS_PAGE_KEY = "LAST_SHOTS_PAGE";
-  private static final String LAST_SHOTS_POSITION_KEY = "LAST_SHOTS_POSITION";
 
   @BindView(R.id.card_stack) CardStackPort mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
   @BindView(R.id.conection_error_container) View mErrorContainer;
   @BindView(R.id.conection_empty_container) View mEmptyContainer;
 
-  private SharedPreferences mPreference;
   private Subscription mSubscription;
   private Unbinder mUnbinder;
   private DeckAdapter mAdapter;
-  private int mCurrentPage = 0;
   private int mCurrentPosition = 0;
   /** used to show if is loading next page while swipe */
   private boolean mIsLoading = false;
-  /** used to show if next page is empty */
-  private boolean mShouldShowEmpty = false;
 
   private DeckListener mDeckListener = new DeckListener() {
     @Override void onCardSwiped(int direction, int swipedIndex) {
       mCurrentPosition++;
       if (mAdapter.getCount() - swipedIndex <= Dribble.PRELOAD_THRESHOLD && !mIsLoading) {
-        mCurrentPage++;
         loadNext(0);
       }
 
@@ -134,9 +124,9 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     mIsLoading = true;
     Selinali.unsubscribe(mSubscription);
     mSubscription = Dribble.instance()
-        .getShots(mCurrentPage,
-            shots -> checkResponsedShotSize(shots),
-            DeckFragment::shouldShow
+        .getShots(
+            DeckFragment::shouldShow,
+            shots -> shots.size() >= Dribble.PRELOAD_THRESHOLD
         )
         .delaySubscription(delay, TimeUnit.MILLISECONDS)
         .subscribeOn(Schedulers.io())
@@ -145,22 +135,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
         .subscribe(this::bind, this::handleError);
   }
 
-  private List<Shot> checkResponsedShotSize(List<Shot> shots) {
-    if (shots.size() < Dribble.PAGE_LIMIT) {
-      mShouldShowEmpty = true;
-    }
-    if (shots.size() == 0) {
-      mCurrentPage -= 1;
-    }
-    return shots;
-  }
-
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    mPreference = TribbbleApp.context().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
-    mCurrentPage = mPreference.getInt(LAST_SHOTS_PAGE_KEY, 0);
-
     loadNext(0);
   }
 
@@ -173,14 +149,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-
-    int last = mPreference.getInt(LAST_SHOTS_POSITION_KEY, 0);
-    mCurrentPosition = last > 0 ? last + mCurrentPosition : mCurrentPosition;
-    mCurrentPage = mCurrentPosition < mCurrentPage * Dribble.PAGE_LIMIT ? mCurrentPage - 1 : mCurrentPage;
-
-    mPreference.edit().putInt(LAST_SHOTS_PAGE_KEY, mCurrentPage).apply();
-    mPreference.edit().putInt(LAST_SHOTS_POSITION_KEY, mCurrentPosition).apply();
-
     mUnbinder.unbind();
     Selinali.unsubscribe(mSubscription);
   }
@@ -195,7 +163,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       mAdapter.addAll(shots);
     }
     // 空内容处理
-    if (shots.isEmpty() && mShouldShowEmpty && mCurrentPosition == mAdapter.getCount()) {
+    if (shots.isEmpty() && mCurrentPosition == mAdapter.getCount()) {
       handleEmpty();
     }
   }
@@ -204,9 +172,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     ViewUtils.fadeView(mErrorContainer, false, 150);
     ViewUtils.fadeView(mEmptyContainer, false, 150);
     mProgressView.setVisibility(View.VISIBLE);
-
-    // try next page
-    mCurrentPage += 1;
 
     // 刷新
     loadNext(500);
